@@ -131,3 +131,29 @@
     font-family: inherit;
   }
 }
+
+/* Custom scrollbar — thin, elegant, desktop-friendly */
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 9999px;
+    transition: background-color 0.2s;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--muted-foreground);
+  }
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}

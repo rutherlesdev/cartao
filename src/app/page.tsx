@@ -50,7 +50,9 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<TabId>("capa");
   const [data, setData] = useState<CardData>(createInitialData);
   const [loaded, setLoaded] = useState(false);
-  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">(
+    "idle"
+  );
 
   useEffect(() => {
     try {
@@ -117,20 +119,26 @@ export default function Home() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
   }, []);
 
-  return (
-    <div className="flex min-h-[100dvh] flex-col bg-background">
-      {/* Native-style status bar spacer */}
-      <div className="h-[env(safe-area-inset-top)] bg-primary" />
+  const statsCards = [
+    { label: "Consultas", value: "12", icon: CalendarDays },
+    { label: "Exames", value: `${exames.length}`, icon: ClipboardList },
+    { label: "Risco", value: data.riskType || "---", icon: Activity },
+  ];
 
-      {/* Top app bar */}
-      <header className="sticky top-0 z-50 flex items-center justify-between bg-primary px-4 py-3 text-primary-foreground shadow-md">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-foreground/15">
-            <Stethoscope className="h-4 w-4" />
+  return (
+    <div className="flex min-h-[100dvh] flex-col bg-background lg:flex-row">
+      {/* ===================== DESKTOP SIDEBAR (lg+) ===================== */}
+      <aside className="hidden lg:flex lg:w-72 xl:w-80 lg:shrink-0 lg:flex-col lg:border-r lg:border-border lg:bg-card">
+        {/* Sidebar header */}
+        <div className="flex items-center gap-3 border-b border-border px-5 py-5">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
+            <Stethoscope className="h-5 w-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-base font-bold leading-tight">Cartao da Gestante</h1>
-            <p className="text-[10px] font-medium leading-tight text-primary-foreground/70">
+            <h1 className="text-base font-bold text-foreground leading-tight">
+              Cartao da Gestante
+            </h1>
+            <p className="text-xs text-muted-foreground">
               {saveState === "saving"
                 ? "Salvando..."
                 : saveState === "saved"
@@ -139,100 +147,224 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-1.5">
-          <button
-            type="button"
+
+        {/* Sidebar nav */}
+        <nav className="flex flex-1 flex-col gap-1 p-3">
+          {tabs.map(({ id, label, icon: Icon }) => {
+            const active = activeTab === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setActiveTab(id)}
+                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                  active
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`}
+              >
+                <Icon
+                  className="h-5 w-5 shrink-0"
+                  strokeWidth={active ? 2.2 : 1.8}
+                />
+                {label}
+                {active && (
+                  <div className="ml-auto h-2 w-2 rounded-full bg-primary" />
+                )}
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Sidebar progress */}
+        <div className="border-t border-border p-4">
+          <div className="flex items-center justify-between pb-2 text-xs">
+            <span className="font-medium text-muted-foreground">
+              Preenchimento
+            </span>
+            <span className="font-bold text-primary">{completion}%</span>
+          </div>
+          <Progress value={completion} className="h-1.5" />
+          {hasErrors && (
+            <div className="mt-2.5 flex items-center gap-2 rounded-lg bg-destructive/8 px-3 py-2">
+              <AlertCircle className="h-3.5 w-3.5 shrink-0 text-destructive" />
+              <p className="text-xs font-medium text-destructive">
+                {Object.keys(errors).length} campo(s) pendente(s)
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Sidebar actions */}
+        <div className="flex gap-2 border-t border-border p-4">
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1 gap-2 rounded-xl"
             onClick={saveNow}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
-            aria-label="Salvar"
           >
-            <Save className="h-4.5 w-4.5" />
-          </button>
-          <button
-            type="button"
+            <Save className="h-4 w-4" />
+            Salvar
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1 gap-2 rounded-xl"
             onClick={exportPdf}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
-            aria-label="Exportar PDF"
           >
-            <FileDown className="h-4.5 w-4.5" />
-          </button>
-          <button
-            type="button"
+            <FileDown className="h-4 w-4" />
+            PDF
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-9 w-9 shrink-0 rounded-xl"
             onClick={resetData}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
-            aria-label="Resetar dados"
           >
             <RotateCcw className="h-4 w-4" />
-          </button>
+          </Button>
         </div>
-      </header>
+      </aside>
 
-      {/* Progress strip */}
-      <div className="bg-card px-4 pb-3 pt-3">
-        <div className="flex items-center justify-between pb-1.5 text-xs">
-          <span className="font-medium text-muted-foreground">
-            Preenchimento
-          </span>
-          <span className="font-bold text-primary">{completion}%</span>
+      {/* ===================== MAIN CONTENT AREA ===================== */}
+      <div className="flex flex-1 flex-col">
+        {/* Mobile-only: top app bar */}
+        <div className="h-[env(safe-area-inset-top)] bg-primary lg:hidden" />
+        <header className="sticky top-0 z-50 flex items-center justify-between bg-primary px-4 py-3 text-primary-foreground shadow-md lg:hidden">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-foreground/15">
+              <Stethoscope className="h-4 w-4" />
+            </div>
+            <div>
+              <h1 className="text-base font-bold leading-tight">
+                Cartao da Gestante
+              </h1>
+              <p className="text-[10px] font-medium leading-tight text-primary-foreground/70">
+                {saveState === "saving"
+                  ? "Salvando..."
+                  : saveState === "saved"
+                    ? "Salvo"
+                    : "Prontuario digital"}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={saveNow}
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
+              aria-label="Salvar"
+            >
+              <Save className="h-4.5 w-4.5" />
+            </button>
+            <button
+              type="button"
+              onClick={exportPdf}
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
+              aria-label="Exportar PDF"
+            >
+              <FileDown className="h-4.5 w-4.5" />
+            </button>
+            <button
+              type="button"
+              onClick={resetData}
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
+              aria-label="Resetar dados"
+            >
+              <RotateCcw className="h-4 w-4" />
+            </button>
+          </div>
+        </header>
+
+        {/* Mobile-only: progress strip */}
+        <div className="bg-card px-4 pb-3 pt-3 lg:hidden">
+          <div className="flex items-center justify-between pb-1.5 text-xs">
+            <span className="font-medium text-muted-foreground">
+              Preenchimento
+            </span>
+            <span className="font-bold text-primary">{completion}%</span>
+          </div>
+          <Progress value={completion} className="h-1.5" />
+          {hasErrors && (
+            <div className="mt-2 flex items-center gap-2 rounded-lg bg-destructive/8 px-3 py-2">
+              <AlertCircle className="h-3.5 w-3.5 shrink-0 text-destructive" />
+              <p className="text-xs font-medium text-destructive">
+                {Object.keys(errors).length} campo(s) pendente(s)
+              </p>
+            </div>
+          )}
         </div>
-        <Progress value={completion} className="h-1.5" />
-        {hasErrors && (
-          <div className="mt-2 flex items-center gap-2 rounded-lg bg-destructive/8 px-3 py-2">
-            <AlertCircle className="h-3.5 w-3.5 shrink-0 text-destructive" />
-            <p className="text-xs font-medium text-destructive">
-              {Object.keys(errors).length} campo(s) pendente(s)
-            </p>
+
+        {/* Quick stats row */}
+        {activeTab === "capa" && (
+          <div className="flex gap-2 overflow-x-auto px-4 pb-2 pt-2 lg:gap-3 lg:px-6 lg:pt-6">
+            {statsCards.map(({ label, value, icon: Icon }) => (
+              <div
+                key={label}
+                className="flex min-w-0 shrink-0 items-center gap-2.5 rounded-2xl bg-card px-4 py-3 shadow-sm lg:min-w-[180px] lg:px-5 lg:py-4"
+              >
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent lg:h-11 lg:w-11">
+                  <Icon className="h-4 w-4 text-accent-foreground lg:h-5 lg:w-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-[10px] font-semibold uppercase tracking-wider text-muted-foreground lg:text-xs">
+                    {label}
+                  </p>
+                  <p className="truncate text-sm font-bold text-foreground lg:text-base">
+                    {value}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
+
+        {/* Desktop top bar with breadcrumb */}
+        {activeTab !== "capa" && (
+          <div className="hidden items-center gap-3 border-b border-border px-6 py-4 lg:flex">
+            <Badge variant="secondary" className="rounded-lg px-3 py-1 text-xs font-semibold">
+              {tabs.find((t) => t.id === activeTab)?.label}
+            </Badge>
+            {hasErrors && (
+              <Badge variant="destructive" className="rounded-lg px-3 py-1 text-xs">
+                {Object.keys(errors).length} pendencia(s)
+              </Badge>
+            )}
+          </div>
+        )}
+
+        {/* Scrollable content */}
+        <main className="flex-1 overflow-y-auto px-4 pb-24 pt-3 lg:px-6 lg:pb-8 lg:pt-5">
+          <div className="mx-auto w-full max-w-4xl">
+            <div className={activeTab === "capa" ? "block" : "hidden"}>
+              <SectionCapa />
+            </div>
+            <div className={activeTab === "identificacao" ? "block" : "hidden"}>
+              <SectionIdentificacao
+                data={data}
+                errors={errors}
+                onUpdate={handleUpdate}
+              />
+            </div>
+            <div className={activeTab === "consultas" ? "block" : "hidden"}>
+              <SectionConsultas data={data} onUpdate={handleUpdate} />
+            </div>
+            <div className={activeTab === "exames" ? "block" : "hidden"}>
+              <SectionExames data={data} onUpdate={handleUpdate} />
+            </div>
+            <div className={activeTab === "observacoes" ? "block" : "hidden"}>
+              <SectionObservacoes
+                data={data}
+                loaded={loaded}
+                onUpdate={handleUpdate}
+              />
+            </div>
+          </div>
+        </main>
       </div>
 
-      {/* Quick stats row */}
-      {activeTab === "capa" && (
-        <div className="flex gap-2 overflow-x-auto px-4 pb-2 pt-1">
-          {[
-            { label: "Consultas", value: "12", icon: CalendarDays },
-            { label: "Exames", value: `${exames.length}`, icon: ClipboardList },
-            { label: "Risco", value: data.riskType || "---", icon: Activity },
-          ].map(({ label, value, icon: Icon }) => (
-            <div
-              key={label}
-              className="flex min-w-0 shrink-0 items-center gap-2.5 rounded-2xl bg-card px-4 py-3 shadow-sm"
-            >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent">
-                <Icon className="h-4 w-4 text-accent-foreground" />
-              </div>
-              <div className="min-w-0">
-                <p className="truncate text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  {label}
-                </p>
-                <p className="truncate text-sm font-bold text-foreground">{value}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Content area */}
-      <main className="flex-1 overflow-y-auto px-4 pb-24 pt-3">
-        <div className={activeTab === "capa" ? "block" : "hidden"}>
-          <SectionCapa />
-        </div>
-        <div className={activeTab === "identificacao" ? "block" : "hidden"}>
-          <SectionIdentificacao data={data} errors={errors} onUpdate={handleUpdate} />
-        </div>
-        <div className={activeTab === "consultas" ? "block" : "hidden"}>
-          <SectionConsultas data={data} onUpdate={handleUpdate} />
-        </div>
-        <div className={activeTab === "exames" ? "block" : "hidden"}>
-          <SectionExames data={data} onUpdate={handleUpdate} />
-        </div>
-        <div className={activeTab === "observacoes" ? "block" : "hidden"}>
-          <SectionObservacoes data={data} loaded={loaded} onUpdate={handleUpdate} />
-        </div>
-      </main>
-
-      {/* Native-style bottom tab bar */}
-      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card pb-[env(safe-area-inset-bottom)] shadow-[0_-1px_12px_-2px_rgba(0,0,0,0.08)]">
+      {/* ===================== MOBILE BOTTOM TAB BAR ===================== */}
+      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card pb-[env(safe-area-inset-bottom)] shadow-[0_-1px_12px_-2px_rgba(0,0,0,0.08)] lg:hidden">
         <div className="flex items-stretch justify-around">
           {tabs.map(({ id, label, icon: Icon }) => {
             const active = activeTab === id;
@@ -254,7 +386,10 @@ export default function Home() {
                     active ? "bg-primary/12" : ""
                   }`}
                 >
-                  <Icon className="h-5 w-5" strokeWidth={active ? 2.2 : 1.8} />
+                  <Icon
+                    className="h-5 w-5"
+                    strokeWidth={active ? 2.2 : 1.8}
+                  />
                 </div>
                 <span
                   className={`text-[10px] leading-tight ${
