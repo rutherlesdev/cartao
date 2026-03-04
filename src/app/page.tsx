@@ -301,20 +301,23 @@ export default function Home() {
 
         {/* Quick stats row */}
         {activeTab === "capa" && (
-          <div className="flex gap-2 overflow-x-auto px-4 pb-2 pt-2 lg:gap-3 lg:px-6 lg:pt-6">
+          <div className="flex gap-3 overflow-x-auto px-4 pb-4 pt-4 lg:gap-4 lg:px-6 lg:pt-8 lg:pb-6">
             {statsCards.map(({ label, value, icon: Icon }) => (
               <div
                 key={label}
-                className="afetus-paper flex min-w-0 shrink-0 items-center gap-2.5 rounded-2xl px-4 py-3 shadow-sm lg:min-w-[180px] lg:px-5 lg:py-4"
+                className="relative afetus-paper flex min-w-0 shrink-0 flex-col gap-3 rounded-3xl px-5 py-5 shadow-md border border-primary/10 lg:min-w-[200px] lg:px-6 lg:py-6 hover:shadow-lg hover:border-primary/20 transition-all duration-200"
               >
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent lg:h-11 lg:w-11">
-                  <Icon className="h-4 w-4 text-accent-foreground lg:h-5 lg:w-5" />
+                <div className="flex items-center justify-between">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 lg:h-12 lg:w-12">
+                    <Icon className="h-5 w-5 text-primary lg:h-6 lg:w-6" />
+                  </div>
+                  <div className="h-1 w-1 rounded-full bg-primary/40" />
                 </div>
-                <div className="min-w-0">
-                  <p className="truncate text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
                     {label}
                   </p>
-                  <p className="truncate text-sm font-bold text-foreground lg:text-base">
+                  <p className="text-2xl font-bold text-primary lg:text-3xl">
                     {value}
                   </p>
                 </div>
