@@ -6,8 +6,10 @@ export function SectionCapa() {
   return (
     <div className="flex flex-col gap-4 lg:gap-6">
       {/* Hero banner */}
-      <div className="overflow-hidden rounded-2xl bg-primary lg:flex lg:items-stretch">
-        <div className="px-5 pb-6 pt-6 lg:flex-1 lg:px-8 lg:py-8">
+      <div className="relative overflow-hidden rounded-2xl bg-primary lg:flex lg:items-stretch">
+        <div className="pointer-events-none absolute -bottom-44 -right-16 hidden h-[420px] w-[420px] rounded-[50%] border-[14px] border-[#adb4bb] bg-[#f4f5f6] opacity-95 lg:block" />
+        <div className="pointer-events-none absolute -bottom-40 -right-20 hidden h-[430px] w-[430px] rounded-[50%] border border-white/30 lg:block" />
+        <div className="relative px-5 pb-6 pt-6 lg:flex-1 lg:px-8 lg:py-8">
           <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-foreground/15 lg:h-12 lg:w-12">
             <Baby className="h-5 w-5 text-primary-foreground lg:h-6 lg:w-6" />
           </div>
@@ -17,12 +19,12 @@ export function SectionCapa() {
           <h2 className="font-serif text-2xl font-bold text-primary-foreground lg:text-3xl">
             acompanhamento pre-natal
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-primary-foreground/75 lg:mt-3 lg:max-w-md lg:text-base">
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-primary-foreground/75 lg:mt-3 lg:max-w-md lg:text-base">
             Aqui voce encontra seu historico completo de consultas, exames e
             orientacoes medicas.
           </p>
         </div>
-        <div className="flex items-center gap-3 border-t border-primary-foreground/10 bg-primary-foreground/5 px-5 py-3 lg:border-l lg:border-t-0 lg:px-8">
+        <div className="relative z-10 flex items-center gap-3 border-t border-primary-foreground/10 bg-primary-foreground/5 px-5 py-3 lg:border-l lg:border-t-0 lg:px-8">
           <Stethoscope className="h-4 w-4 text-primary-foreground/70" />
           <p className="text-xs font-medium text-primary-foreground/80 lg:text-sm">
             Dr. Stenio Galvao de Freitas
@@ -46,7 +48,7 @@ export function SectionCapa() {
         ].map(({ icon: Icon, title, desc }) => (
           <div
             key={title}
-            className="flex flex-col gap-2 rounded-2xl bg-card p-4 lg:p-5"
+            className="afetus-paper flex flex-col gap-2 rounded-2xl p-4 lg:p-5"
           >
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent lg:h-11 lg:w-11">
               <Icon className="h-4 w-4 text-accent-foreground lg:h-5 lg:w-5" />
@@ -58,8 +60,8 @@ export function SectionCapa() {
       </div>
 
       {/* Tips */}
-      <div className="rounded-2xl bg-card p-5 lg:p-6">
-        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-primary lg:text-sm">
+      <div className="afetus-paper rounded-2xl p-5 lg:p-6">
+        <p className="afetus-section-title mb-3 lg:text-sm">
           Cuidados essenciais
         </p>
         <ul className="flex flex-col gap-2.5 lg:grid lg:grid-cols-2 lg:gap-3">

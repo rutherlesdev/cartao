@@ -46,34 +46,63 @@ function SectionExamesInner({ data, onUpdate }: Props) {
   return (
     <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6">
       {/* Lab exams */}
-      <div className="rounded-2xl bg-card p-4 lg:col-span-2 lg:p-6">
-        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-primary lg:text-sm">
+      <div className="afetus-paper rounded-2xl p-4 lg:col-span-2 lg:p-6">
+        <p className="afetus-section-title mb-3 lg:text-sm">
           Exames laboratoriais
         </p>
-        <div className="overflow-x-auto rounded-xl">
+        <div className="space-y-3 lg:hidden">
+          {exames.map((exame, idx) => (
+            <div key={exame} className="afetus-grid-line rounded-xl border bg-background p-3">
+              <p className="mb-2 text-sm font-semibold text-foreground">{exame}</p>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <label className="afetus-grid-line flex flex-col gap-1 rounded-lg border bg-card p-2">
+                  <span className="text-xs font-medium text-muted-foreground">Data</span>
+                  <Input
+                    className="rounded-lg border-transparent bg-background focus:border-primary/30 focus:bg-card"
+                    placeholder="dd/mm/aaaa"
+                    value={data.exams[idx].date}
+                    onChange={(e) => handleExamChange(idx, "date", e.target.value)}
+                  />
+                </label>
+                <label className="afetus-grid-line flex flex-col gap-1 rounded-lg border bg-card p-2">
+                  <span className="text-xs font-medium text-muted-foreground">Resultado</span>
+                  <Input
+                    className="rounded-lg border-transparent bg-background focus:border-primary/30 focus:bg-card"
+                    value={data.exams[idx].result}
+                    onChange={(e) =>
+                      handleExamChange(idx, "result", e.target.value)
+                    }
+                  />
+                </label>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="hidden overflow-x-auto rounded-xl lg:block">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="bg-primary text-[10px] font-bold uppercase tracking-wider text-primary-foreground lg:text-xs">
+                <TableHead className="afetus-pill text-xs font-bold uppercase tracking-wider">
                   Exame
                 </TableHead>
-                <TableHead className="bg-primary text-[10px] font-bold uppercase tracking-wider text-primary-foreground lg:text-xs">
+                <TableHead className="afetus-pill text-xs font-bold uppercase tracking-wider">
                   Data
                 </TableHead>
-                <TableHead className="bg-primary text-[10px] font-bold uppercase tracking-wider text-primary-foreground lg:text-xs">
+                <TableHead className="afetus-pill text-xs font-bold uppercase tracking-wider">
                   Resultado
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {exames.map((exame, idx) => (
-                <TableRow key={exame}>
-                  <TableCell className="bg-muted/40 text-xs font-semibold text-foreground lg:text-sm">
+                <TableRow key={exame} className="afetus-grid-line">
+                  <TableCell className="afetus-grid-line border-r bg-[var(--surface-soft)] text-sm font-semibold text-foreground">
                     {exame}
                   </TableCell>
-                  <TableCell className="p-1 lg:p-1.5">
+                  <TableCell className="p-1.5">
                     <Input
-                      className="h-8 rounded-lg border-transparent bg-background text-xs transition-colors focus:border-primary/30 focus:bg-card lg:h-9 lg:text-sm"
+                      className="rounded-lg border-transparent bg-background text-sm transition-colors focus:border-primary/30 focus:bg-card"
                       placeholder="dd/mm/aaaa"
                       value={data.exams[idx].date}
                       onChange={(e) =>
@@ -81,9 +110,9 @@ function SectionExamesInner({ data, onUpdate }: Props) {
                       }
                     />
                   </TableCell>
-                  <TableCell className="p-1 lg:p-1.5">
+                  <TableCell className="p-1.5">
                     <Input
-                      className="h-8 rounded-lg border-transparent bg-background text-xs transition-colors focus:border-primary/30 focus:bg-card lg:h-9 lg:text-sm"
+                      className="rounded-lg border-transparent bg-background text-sm transition-colors focus:border-primary/30 focus:bg-card"
                       value={data.exams[idx].result}
                       onChange={(e) =>
                         handleExamChange(idx, "result", e.target.value)
@@ -98,11 +127,44 @@ function SectionExamesInner({ data, onUpdate }: Props) {
       </div>
 
       {/* Ultrasounds */}
-      <div className="rounded-2xl bg-card p-4 lg:col-span-2 lg:p-6">
-        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-primary lg:text-sm">
+      <div className="afetus-paper rounded-2xl p-4 lg:col-span-2 lg:p-6">
+        <p className="afetus-section-title mb-3 lg:text-sm">
           Ultrassonografias
         </p>
-        <div className="overflow-x-auto rounded-xl">
+        <div className="space-y-3 lg:hidden">
+          {data.ultrasounds.map((usg, row) => (
+            <div key={`usg-mobile-${row + 1}`} className="afetus-grid-line rounded-xl border bg-background p-3">
+              <p className="mb-2 text-sm font-semibold text-foreground">USG {row + 1}</p>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {(
+                  [
+                    ["date", "Data", "dd/mm/aaaa"],
+                    ["igUsg", "IG USG", ""],
+                    ["pesoFetal", "Peso fetal", ""],
+                    ["placenta", "Placenta", ""],
+                    ["liquido", "Liquido", ""],
+                  ] as const
+                ).map(([field, label, ph]) => (
+                  <label key={field} className="afetus-grid-line flex flex-col gap-1 rounded-lg border bg-card p-2">
+                    <span className="text-xs font-medium text-muted-foreground">
+                      {label}
+                    </span>
+                    <Input
+                      className="rounded-lg border-transparent bg-background focus:border-primary/30 focus:bg-card"
+                      placeholder={ph}
+                      value={usg[field]}
+                      onChange={(e) =>
+                        handleUsgChange(row, field, e.target.value)
+                      }
+                    />
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="hidden overflow-x-auto rounded-xl lg:block">
           <Table className="min-w-[560px]">
             <TableHeader>
               <TableRow>
@@ -110,7 +172,7 @@ function SectionExamesInner({ data, onUpdate }: Props) {
                   (h) => (
                     <TableHead
                       key={h}
-                      className="bg-primary text-[10px] font-bold uppercase tracking-wider text-primary-foreground lg:text-xs"
+                      className="afetus-pill text-xs font-bold uppercase tracking-wider"
                     >
                       {h}
                     </TableHead>
@@ -120,7 +182,7 @@ function SectionExamesInner({ data, onUpdate }: Props) {
             </TableHeader>
             <TableBody>
               {data.ultrasounds.map((usg, row) => (
-                <TableRow key={`usg-${row + 1}`}>
+                <TableRow key={`usg-${row + 1}`} className="afetus-grid-line">
                   {(
                     [
                       ["date", "dd/mm/aaaa"],
@@ -130,9 +192,9 @@ function SectionExamesInner({ data, onUpdate }: Props) {
                       ["liquido", ""],
                     ] as const
                   ).map(([field, ph]) => (
-                    <TableCell key={field} className="p-1 lg:p-1.5">
+                    <TableCell key={field} className="p-1.5">
                       <Input
-                        className="h-8 rounded-lg border-transparent bg-background text-xs transition-colors focus:border-primary/30 focus:bg-card lg:h-9 lg:text-sm"
+                        className="rounded-lg border-transparent bg-background text-sm transition-colors focus:border-primary/30 focus:bg-card"
                         placeholder={ph}
                         value={usg[field]}
                         onChange={(e) =>

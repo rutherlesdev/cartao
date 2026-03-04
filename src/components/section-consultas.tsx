@@ -33,21 +33,41 @@ function SectionConsultasInner({ data, onUpdate }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="rounded-2xl bg-card p-4 lg:p-6">
-        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-primary lg:text-sm">
+      <div className="afetus-paper rounded-2xl p-4 lg:p-6">
+        <p className="afetus-section-title mb-3 lg:text-sm">
           Evolucao em consultas
         </p>
-        <div className="overflow-x-auto rounded-xl">
+        <div className="space-y-3 lg:hidden">
+          {metricasConsulta.map((metrica, row) => (
+            <div key={metrica} className="afetus-grid-line rounded-xl border bg-background p-3">
+              <p className="mb-3 text-sm font-semibold text-foreground">{metrica}</p>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {consultas.map((c, col) => (
+                  <label key={`${metrica}-${c}`} className="afetus-grid-line flex flex-col gap-1 rounded-lg border bg-card p-2">
+                    <span className="text-xs font-medium text-muted-foreground">{c}</span>
+                    <Input
+                      className="rounded-lg border-transparent bg-background focus:border-primary/30 focus:bg-card"
+                      value={data.consultations[row][col]}
+                      onChange={(e) => handleCellChange(row, col, e.target.value)}
+                    />
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="hidden overflow-x-auto rounded-xl lg:block">
           <Table className="min-w-[1000px]">
             <TableHeader>
               <TableRow>
-                <TableHead className="sticky left-0 z-10 min-w-[140px] bg-primary text-[10px] font-bold uppercase tracking-wider text-primary-foreground lg:min-w-[180px] lg:text-xs">
+                <TableHead className="afetus-pill sticky left-0 z-10 min-w-[140px] rounded-tl-lg text-xs font-bold uppercase tracking-wider lg:min-w-[180px]">
                   Indicador
                 </TableHead>
                 {consultas.map((c) => (
                   <TableHead
                     key={c}
-                    className="bg-primary text-center text-[10px] font-bold uppercase tracking-wider text-primary-foreground lg:text-xs"
+                    className="afetus-pill text-center text-xs font-bold uppercase tracking-wider"
                   >
                     {c}
                   </TableHead>
@@ -56,14 +76,14 @@ function SectionConsultasInner({ data, onUpdate }: Props) {
             </TableHeader>
             <TableBody>
               {metricasConsulta.map((metrica, row) => (
-                <TableRow key={metrica}>
-                  <TableCell className="sticky left-0 z-10 bg-muted text-xs font-semibold text-foreground lg:text-sm">
+                <TableRow key={metrica} className="afetus-grid-line">
+                  <TableCell className="afetus-grid-line sticky left-0 z-10 border-r bg-[var(--surface-soft)] text-sm font-semibold text-foreground">
                     {metrica}
                   </TableCell>
                   {consultas.map((c, col) => (
-                    <TableCell key={`${metrica}-${c}`} className="p-1 lg:p-1.5">
+                    <TableCell key={`${metrica}-${c}`} className="p-1.5">
                       <Input
-                        className="h-8 rounded-lg border-transparent bg-background text-xs transition-colors focus:border-primary/30 focus:bg-card lg:h-9 lg:text-sm"
+                        className="rounded-lg border-transparent bg-background text-sm transition-colors focus:border-primary/30 focus:bg-card"
                         value={data.consultations[row][col]}
                         onChange={(e) =>
                           handleCellChange(row, col, e.target.value)

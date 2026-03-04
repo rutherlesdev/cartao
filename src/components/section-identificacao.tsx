@@ -29,8 +29,8 @@ function SectionIdentificacaoInner({ data, errors, onUpdate }: Props) {
   return (
     <div className="flex flex-col gap-5 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6">
       {/* Patient info */}
-      <div className="rounded-2xl bg-card p-5 lg:p-6">
-        <p className="mb-4 text-xs font-bold uppercase tracking-wider text-primary lg:text-sm">
+      <div className="afetus-paper rounded-2xl p-5 lg:p-6">
+        <p className="afetus-section-title mb-4 lg:text-sm">
           Dados da paciente
         </p>
         <div className="flex flex-col gap-4">
@@ -42,7 +42,7 @@ function SectionIdentificacaoInner({ data, errors, onUpdate }: Props) {
             error={errors.name}
             onChange={(v) => updatePatient("name", v)}
           />
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <CampoLinha
               id="patient-age"
               label="Idade"
@@ -72,8 +72,8 @@ function SectionIdentificacaoInner({ data, errors, onUpdate }: Props) {
       </div>
 
       {/* Classification */}
-      <div className="rounded-2xl bg-card p-5 lg:p-6">
-        <p className="mb-4 text-xs font-bold uppercase tracking-wider text-primary lg:text-sm">
+      <div className="afetus-paper rounded-2xl p-5 lg:p-6">
+        <p className="afetus-section-title mb-4 lg:text-sm">
           Classificacao clinica
         </p>
 
@@ -87,7 +87,7 @@ function SectionIdentificacaoInner({ data, errors, onUpdate }: Props) {
                 key={type}
                 variant={data.pregnancyType === type ? "default" : "outline"}
                 size="sm"
-                className="h-9 rounded-xl text-xs lg:h-10 lg:text-sm"
+                className="rounded-xl text-sm"
                 onClick={() =>
                   onUpdate((prev) => ({ ...prev, pregnancyType: type }))
                 }
@@ -115,7 +115,7 @@ function SectionIdentificacaoInner({ data, errors, onUpdate }: Props) {
                 key={type}
                 variant={data.riskType === type ? "default" : "outline"}
                 size="sm"
-                className="h-9 rounded-xl text-xs lg:h-10 lg:text-sm"
+                className="rounded-xl text-sm"
                 onClick={() =>
                   onUpdate((prev) => ({ ...prev, riskType: type }))
                 }

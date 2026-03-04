@@ -23,7 +23,6 @@ import {
   createInitialData,
   exames,
   getValidationErrors,
-  metricasConsulta,
   normalizeData,
 } from "@/lib/card-types";
 
@@ -128,17 +127,17 @@ export default function Home() {
   return (
     <div className="flex min-h-[100dvh] flex-col bg-background lg:flex-row">
       {/* ===================== DESKTOP SIDEBAR (lg+) ===================== */}
-      <aside className="hidden lg:flex lg:w-72 xl:w-80 lg:shrink-0 lg:flex-col lg:border-r lg:border-border lg:bg-card">
+      <aside className="hidden lg:flex lg:w-72 xl:w-80 lg:shrink-0 lg:flex-col lg:border-r lg:border-border lg:bg-[#f5f6f7]">
         {/* Sidebar header */}
-        <div className="flex items-center gap-3 border-b border-border px-5 py-5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
+        <div className="flex items-center gap-3 border-b border-border bg-primary px-5 py-5">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-foreground/10">
             <Stethoscope className="h-5 w-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-base font-bold text-foreground leading-tight">
+            <h1 className="text-base font-bold text-primary-foreground leading-tight">
               Cartao da Gestante
             </h1>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-primary-foreground/70">
               {saveState === "saving"
                 ? "Salvando..."
                 : saveState === "saved"
@@ -159,8 +158,8 @@ export default function Home() {
                 onClick={() => setActiveTab(id)}
                 className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                   active
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    ? "afetus-paper text-primary"
+                    : "text-muted-foreground hover:bg-[var(--surface-soft)] hover:text-foreground"
                 }`}
               >
                 <Icon
@@ -177,7 +176,7 @@ export default function Home() {
         </nav>
 
         {/* Sidebar progress */}
-        <div className="border-t border-border p-4">
+        <div className="afetus-paper border-t border-border p-4">
           <div className="flex items-center justify-between pb-2 text-xs">
             <span className="font-medium text-muted-foreground">
               Preenchimento
@@ -218,8 +217,10 @@ export default function Home() {
           <Button
             variant="outline"
             size="icon"
-            className="h-9 w-9 shrink-0 rounded-xl"
+            className="shrink-0 rounded-xl"
             onClick={resetData}
+            aria-label="Resetar dados"
+            title="Resetar dados"
           >
             <RotateCcw className="h-4 w-4" />
           </Button>
@@ -239,7 +240,7 @@ export default function Home() {
               <h1 className="text-base font-bold leading-tight">
                 Cartao da Gestante
               </h1>
-              <p className="text-[10px] font-medium leading-tight text-primary-foreground/70">
+              <p className="text-xs font-medium leading-tight text-primary-foreground/70">
                 {saveState === "saving"
                   ? "Salvando..."
                   : saveState === "saved"
@@ -252,24 +253,27 @@ export default function Home() {
             <button
               type="button"
               onClick={saveNow}
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
+              className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
               aria-label="Salvar"
+              title="Salvar"
             >
               <Save className="h-4.5 w-4.5" />
             </button>
             <button
               type="button"
               onClick={exportPdf}
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
+              className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
               aria-label="Exportar PDF"
+              title="Exportar PDF"
             >
               <FileDown className="h-4.5 w-4.5" />
             </button>
             <button
               type="button"
               onClick={resetData}
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
+              className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-foreground/10 transition-colors active:bg-primary-foreground/20"
               aria-label="Resetar dados"
+              title="Resetar dados"
             >
               <RotateCcw className="h-4 w-4" />
             </button>
@@ -277,7 +281,7 @@ export default function Home() {
         </header>
 
         {/* Mobile-only: progress strip */}
-        <div className="bg-card px-4 pb-3 pt-3 lg:hidden">
+        <div className="afetus-paper px-4 pb-3 pt-3 lg:hidden">
           <div className="flex items-center justify-between pb-1.5 text-xs">
             <span className="font-medium text-muted-foreground">
               Preenchimento
@@ -301,13 +305,13 @@ export default function Home() {
             {statsCards.map(({ label, value, icon: Icon }) => (
               <div
                 key={label}
-                className="flex min-w-0 shrink-0 items-center gap-2.5 rounded-2xl bg-card px-4 py-3 shadow-sm lg:min-w-[180px] lg:px-5 lg:py-4"
+                className="afetus-paper flex min-w-0 shrink-0 items-center gap-2.5 rounded-2xl px-4 py-3 shadow-sm lg:min-w-[180px] lg:px-5 lg:py-4"
               >
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent lg:h-11 lg:w-11">
                   <Icon className="h-4 w-4 text-accent-foreground lg:h-5 lg:w-5" />
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate text-[10px] font-semibold uppercase tracking-wider text-muted-foreground lg:text-xs">
+                  <p className="truncate text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     {label}
                   </p>
                   <p className="truncate text-sm font-bold text-foreground lg:text-base">
@@ -364,8 +368,8 @@ export default function Home() {
       </div>
 
       {/* ===================== MOBILE BOTTOM TAB BAR ===================== */}
-      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card pb-[env(safe-area-inset-bottom)] shadow-[0_-1px_12px_-2px_rgba(0,0,0,0.08)] lg:hidden">
-        <div className="flex items-stretch justify-around">
+      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-[var(--surface-paper)] pb-[env(safe-area-inset-bottom)] shadow-[0_-1px_10px_-2px_rgba(0,0,0,0.08)] lg:hidden">
+        <div className="flex min-h-14 items-stretch justify-around">
           {tabs.map(({ id, label, icon: Icon }) => {
             const active = activeTab === id;
             return (
@@ -373,7 +377,7 @@ export default function Home() {
                 key={id}
                 type="button"
                 onClick={() => setActiveTab(id)}
-                className={`flex flex-1 flex-col items-center gap-0.5 pb-1.5 pt-2 transition-colors ${
+                className={`flex min-h-14 flex-1 flex-col items-center justify-center gap-1 px-1 py-1.5 transition-colors ${
                   active
                     ? "text-primary"
                     : "text-muted-foreground active:text-foreground"
@@ -382,8 +386,8 @@ export default function Home() {
                 aria-current={active ? "page" : undefined}
               >
                 <div
-                  className={`flex h-7 w-7 items-center justify-center rounded-lg transition-colors ${
-                    active ? "bg-primary/12" : ""
+                  className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+                    active ? "bg-primary/15" : ""
                   }`}
                 >
                   <Icon
@@ -392,7 +396,7 @@ export default function Home() {
                   />
                 </div>
                 <span
-                  className={`text-[10px] leading-tight ${
+                  className={`text-xs leading-tight ${
                     active ? "font-bold" : "font-medium"
                   }`}
                 >
