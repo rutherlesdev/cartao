@@ -1,29 +1,37 @@
-import type { Metadata } from "next";
-import {
-  JetBrains_Mono,
-  Plus_Jakarta_Sans,
-  Playfair_Display,
-} from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 
-const appSans = Plus_Jakarta_Sans({
+const inter = Inter({
   variable: "--font-app-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const appMono = JetBrains_Mono({
+const jetbrainsMono = JetBrains_Mono({
   variable: "--font-app-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const dmSerif = DM_Serif_Display({
+  variable: "--font-app-serif",
   subsets: ["latin"],
+  weight: "400",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Cartão da Gestante",
-  description: "Frontend clínico para acompanhamento pré-natal",
+  title: "Cartao da Gestante",
+  description: "Prontuario digital para acompanhamento pre-natal",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0d7377",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
@@ -34,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body
-        className={`${appSans.variable} ${appMono.variable} ${playfair.variable} antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} ${dmSerif.variable} antialiased`}
       >
         {children}
       </body>
