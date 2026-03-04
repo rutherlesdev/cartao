@@ -44,16 +44,22 @@ function SectionExamesInner({ data, onUpdate }: Props) {
   );
 
   return (
-    <div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6">
+    <section
+      aria-labelledby="section-exames-title"
+      className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6"
+    >
+      <h2 id="section-exames-title" className="sr-only">
+        Exames e ultrassonografias
+      </h2>
       {/* Lab exams */}
       <div className="afetus-paper rounded-2xl p-4 lg:col-span-2 lg:p-6">
-        <p className="afetus-section-title mb-3 lg:text-sm">
+        <h3 className="afetus-section-title mb-3 lg:text-sm">
           Exames laboratoriais
-        </p>
+        </h3>
         <div className="space-y-3 lg:hidden">
           {exames.map((exame, idx) => (
             <div key={exame} className="afetus-grid-line rounded-xl border bg-background p-3">
-              <p className="mb-2 text-sm font-semibold text-foreground">{exame}</p>
+              <h4 className="mb-2 text-sm font-semibold text-foreground">{exame}</h4>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <label className="afetus-grid-line flex flex-col gap-1 rounded-lg border bg-card p-2">
                   <span className="text-xs font-medium text-muted-foreground">Data</span>
@@ -62,6 +68,7 @@ function SectionExamesInner({ data, onUpdate }: Props) {
                     placeholder="dd/mm/aaaa"
                     value={data.exams[idx].date}
                     onChange={(e) => handleExamChange(idx, "date", e.target.value)}
+                    aria-label={`${exame} - Data`}
                   />
                 </label>
                 <label className="afetus-grid-line flex flex-col gap-1 rounded-lg border bg-card p-2">
@@ -72,6 +79,7 @@ function SectionExamesInner({ data, onUpdate }: Props) {
                     onChange={(e) =>
                       handleExamChange(idx, "result", e.target.value)
                     }
+                    aria-label={`${exame} - Resultado`}
                   />
                 </label>
               </div>
@@ -108,6 +116,7 @@ function SectionExamesInner({ data, onUpdate }: Props) {
                       onChange={(e) =>
                         handleExamChange(idx, "date", e.target.value)
                       }
+                      aria-label={`${exame} - Data`}
                     />
                   </TableCell>
                   <TableCell className="p-1.5">
@@ -117,6 +126,7 @@ function SectionExamesInner({ data, onUpdate }: Props) {
                       onChange={(e) =>
                         handleExamChange(idx, "result", e.target.value)
                       }
+                      aria-label={`${exame} - Resultado`}
                     />
                   </TableCell>
                 </TableRow>
@@ -128,13 +138,13 @@ function SectionExamesInner({ data, onUpdate }: Props) {
 
       {/* Ultrasounds */}
       <div className="afetus-paper rounded-2xl p-4 lg:col-span-2 lg:p-6">
-        <p className="afetus-section-title mb-3 lg:text-sm">
+        <h3 className="afetus-section-title mb-3 lg:text-sm">
           Ultrassonografias
-        </p>
+        </h3>
         <div className="space-y-3 lg:hidden">
           {data.ultrasounds.map((usg, row) => (
             <div key={`usg-mobile-${row + 1}`} className="afetus-grid-line rounded-xl border bg-background p-3">
-              <p className="mb-2 text-sm font-semibold text-foreground">USG {row + 1}</p>
+              <h4 className="mb-2 text-sm font-semibold text-foreground">USG {row + 1}</h4>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {(
                   [
@@ -156,6 +166,7 @@ function SectionExamesInner({ data, onUpdate }: Props) {
                       onChange={(e) =>
                         handleUsgChange(row, field, e.target.value)
                       }
+                      aria-label={`USG ${row + 1} - ${label}`}
                     />
                   </label>
                 ))}
@@ -185,13 +196,13 @@ function SectionExamesInner({ data, onUpdate }: Props) {
                 <TableRow key={`usg-${row + 1}`} className="afetus-grid-line">
                   {(
                     [
-                      ["date", "dd/mm/aaaa"],
-                      ["igUsg", ""],
-                      ["pesoFetal", ""],
-                      ["placenta", ""],
-                      ["liquido", ""],
+                      ["date", "Data", "dd/mm/aaaa"],
+                      ["igUsg", "IG USG", ""],
+                      ["pesoFetal", "Peso fetal", ""],
+                      ["placenta", "Placenta", ""],
+                      ["liquido", "Liquido", ""],
                     ] as const
-                  ).map(([field, ph]) => (
+                  ).map(([field, label, ph]) => (
                     <TableCell key={field} className="p-1.5">
                       <Input
                         className="rounded-lg border-transparent bg-background text-sm transition-colors focus:border-primary/30 focus:bg-card"
@@ -200,6 +211,7 @@ function SectionExamesInner({ data, onUpdate }: Props) {
                         onChange={(e) =>
                           handleUsgChange(row, field, e.target.value)
                         }
+                        aria-label={`USG ${row + 1} - ${label}`}
                       />
                     </TableCell>
                   ))}
@@ -209,7 +221,7 @@ function SectionExamesInner({ data, onUpdate }: Props) {
           </Table>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

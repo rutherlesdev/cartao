@@ -37,7 +37,7 @@ export function CampoLinha({
           <Input
             id={id}
             placeholder={placeholder}
-            className="h-11 rounded-xl border-border bg-[#f3f4f6] px-3.5 text-base text-foreground transition-colors placeholder:text-muted-foreground/50 focus:border-primary/30 focus:bg-card focus:ring-2 focus:ring-primary/15 xl:rounded-l-none xl:rounded-r-lg"
+            className="afetus-field h-11 rounded-xl border-border px-3.5 text-base text-foreground transition-colors placeholder:text-muted-foreground/50 focus:border-primary/30 focus:ring-2 focus:ring-primary/15 xl:rounded-l-none xl:rounded-r-lg"
             value={value}
             type={type}
             inputMode={inputMode}

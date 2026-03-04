@@ -32,15 +32,15 @@ function SectionConsultasInner({ data, onUpdate }: Props) {
   );
 
   return (
-    <div className="flex flex-col gap-3">
+    <section aria-labelledby="section-consultas-title" className="flex flex-col gap-3">
       <div className="afetus-paper rounded-2xl p-4 lg:p-6">
-        <p className="afetus-section-title mb-3 lg:text-sm">
+        <h2 id="section-consultas-title" className="afetus-section-title mb-3 lg:text-sm">
           Evolucao em consultas
-        </p>
+        </h2>
         <div className="space-y-3 lg:hidden">
           {metricasConsulta.map((metrica, row) => (
             <div key={metrica} className="afetus-grid-line rounded-xl border bg-background p-3">
-              <p className="mb-3 text-sm font-semibold text-foreground">{metrica}</p>
+              <h3 className="mb-3 text-sm font-semibold text-foreground">{metrica}</h3>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {consultas.map((c, col) => (
                   <label key={`${metrica}-${c}`} className="afetus-grid-line flex flex-col gap-1 rounded-lg border bg-card p-2">
@@ -49,6 +49,7 @@ function SectionConsultasInner({ data, onUpdate }: Props) {
                       className="rounded-lg border-transparent bg-background focus:border-primary/30 focus:bg-card"
                       value={data.consultations[row][col]}
                       onChange={(e) => handleCellChange(row, col, e.target.value)}
+                      aria-label={`${metrica} - ${c}`}
                     />
                   </label>
                 ))}
@@ -88,6 +89,7 @@ function SectionConsultasInner({ data, onUpdate }: Props) {
                         onChange={(e) =>
                           handleCellChange(row, col, e.target.value)
                         }
+                        aria-label={`${metrica} - ${c}`}
                       />
                     </TableCell>
                   ))}
@@ -97,7 +99,7 @@ function SectionConsultasInner({ data, onUpdate }: Props) {
           </Table>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

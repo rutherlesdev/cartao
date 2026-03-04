@@ -27,12 +27,18 @@ function SectionIdentificacaoInner({ data, errors, onUpdate }: Props) {
   );
 
   return (
-    <div className="flex flex-col gap-5 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6">
+    <section
+      aria-labelledby="section-identificacao-title"
+      className="flex flex-col gap-5 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6"
+    >
+      <h2 id="section-identificacao-title" className="sr-only">
+        Identificacao da paciente
+      </h2>
       {/* Patient info */}
       <div className="afetus-paper rounded-2xl p-5 lg:p-6">
-        <p className="afetus-section-title mb-4 lg:text-sm">
+        <h3 className="afetus-section-title mb-4 lg:text-sm">
           Dados da paciente
-        </p>
+        </h3>
         <div className="flex flex-col gap-4">
           <CampoLinha
             id="patient-name"
@@ -73,14 +79,17 @@ function SectionIdentificacaoInner({ data, errors, onUpdate }: Props) {
 
       {/* Classification */}
       <div className="afetus-paper rounded-2xl p-5 lg:p-6">
-        <p className="afetus-section-title mb-4 lg:text-sm">
+        <h3 className="afetus-section-title mb-4 lg:text-sm">
           Classificacao clinica
-        </p>
+        </h3>
 
-        <div className="mb-4">
-          <p className="mb-2.5 text-xs font-semibold text-muted-foreground">
+        <fieldset
+          className="mb-4"
+          aria-describedby={errors.pregnancyType ? "pregnancy-type-error" : undefined}
+        >
+          <legend className="mb-2.5 text-xs font-semibold text-muted-foreground">
             Tipo de gravidez
-          </p>
+          </legend>
           <div className="flex flex-wrap gap-2">
             {pregnancyTypes.map((type) => (
               <Button
@@ -91,24 +100,30 @@ function SectionIdentificacaoInner({ data, errors, onUpdate }: Props) {
                 onClick={() =>
                   onUpdate((prev) => ({ ...prev, pregnancyType: type }))
                 }
+                aria-pressed={data.pregnancyType === type}
               >
                 {type}
               </Button>
             ))}
           </div>
           {errors.pregnancyType && (
-            <p className="mt-1.5 text-xs font-medium text-destructive">
+            <p
+              id="pregnancy-type-error"
+              className="mt-1.5 text-xs font-medium text-destructive"
+            >
               {errors.pregnancyType}
             </p>
           )}
-        </div>
+        </fieldset>
 
         <Separator className="my-4" />
 
-        <div>
-          <p className="mb-2.5 text-xs font-semibold text-muted-foreground">
+        <fieldset
+          aria-describedby={errors.riskType ? "risk-type-error" : undefined}
+        >
+          <legend className="mb-2.5 text-xs font-semibold text-muted-foreground">
             Classificacao de risco
-          </p>
+          </legend>
           <div className="flex flex-wrap gap-2">
             {riskTypes.map((type) => (
               <Button
@@ -119,19 +134,20 @@ function SectionIdentificacaoInner({ data, errors, onUpdate }: Props) {
                 onClick={() =>
                   onUpdate((prev) => ({ ...prev, riskType: type }))
                 }
+                aria-pressed={data.riskType === type}
               >
                 {type}
               </Button>
             ))}
           </div>
           {errors.riskType && (
-            <p className="mt-1.5 text-xs font-medium text-destructive">
+            <p id="risk-type-error" className="mt-1.5 text-xs font-medium text-destructive">
               {errors.riskType}
             </p>
           )}
-        </div>
+        </fieldset>
       </div>
-    </div>
+    </section>
   );
 }
 
