@@ -48,31 +48,33 @@ export function SectionCapa() {
         ].map(({ icon: Icon, title, desc }) => (
           <div
             key={title}
-            className="afetus-paper flex flex-col gap-2 rounded-2xl p-4 lg:p-5"
+            className="afetus-paper flex flex-col gap-3 rounded-3xl p-5 lg:p-6 border border-primary/15 hover:border-primary/30 hover:shadow-md transition-all duration-200"
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent lg:h-11 lg:w-11">
-              <Icon className="h-4 w-4 text-accent-foreground lg:h-5 lg:w-5" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 lg:h-12 lg:w-12">
+              <Icon className="h-5 w-5 text-primary lg:h-6 lg:w-6" />
             </div>
-            <p className="text-sm font-bold text-foreground lg:text-base">{title}</p>
-            <p className="text-xs leading-relaxed text-muted-foreground lg:text-sm">{desc}</p>
+            <div className="flex-1">
+              <p className="text-base font-bold text-foreground lg:text-lg mb-1">{title}</p>
+              <p className="text-xs leading-relaxed text-foreground/75 lg:text-sm">{desc}</p>
+            </div>
           </div>
         ))}
       </div>
 
       {/* Tips */}
-      <div className="afetus-paper rounded-2xl p-5 lg:p-6">
-        <p className="afetus-section-title mb-3 lg:text-sm">
+      <div className="afetus-paper rounded-3xl p-6 lg:p-8 border border-primary/15">
+        <p className="afetus-section-title mb-4 lg:text-sm text-primary">
           Cuidados essenciais
         </p>
-        <ul className="flex flex-col gap-2.5 lg:grid lg:grid-cols-2 lg:gap-3">
+        <ul className="flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-4">
           {[
             "Alimente-se bem e mantenha hidratacao adequada.",
             "Realize atividade fisica com orientacao medica.",
             "Nao falte as consultas e exames periodicos.",
             "Converse com a equipe sobre seu plano de parto.",
           ].map((tip) => (
-            <li key={tip} className="flex items-start gap-2.5 text-sm text-foreground lg:text-base">
-              <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+            <li key={tip} className="flex items-start gap-3 text-sm text-foreground font-medium lg:text-base">
+              <div className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary" />
               {tip}
             </li>
           ))}
