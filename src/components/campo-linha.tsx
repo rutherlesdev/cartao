@@ -25,17 +25,17 @@ export function CampoLinha({
   onChange,
 }: CampoLinhaProps) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1">
       <Label
         htmlFor={id}
-        className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+        className="text-xs font-semibold text-muted-foreground"
       >
         {label}
       </Label>
       <Input
         id={id}
         placeholder={placeholder}
-        className="h-12 rounded-xl border-border bg-muted/50 px-4 text-base transition-colors focus:bg-card focus:ring-2 focus:ring-primary/20"
+        className="h-11 rounded-xl border-transparent bg-muted/60 px-3.5 text-[15px] text-foreground transition-colors placeholder:text-muted-foreground/50 focus:border-primary/30 focus:bg-card focus:ring-2 focus:ring-primary/15"
         value={value}
         type={type}
         inputMode={inputMode}
@@ -43,7 +43,7 @@ export function CampoLinha({
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${id}-error` : undefined}
       />
-      {error ? (
+      {error && (
         <p
           id={`${id}-error`}
           role="alert"
@@ -51,7 +51,7 @@ export function CampoLinha({
         >
           {error}
         </p>
-      ) : null}
+      )}
     </div>
   );
 }

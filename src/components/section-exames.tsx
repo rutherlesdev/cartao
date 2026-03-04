@@ -1,7 +1,6 @@
 "use client";
 
 import { memo, useCallback } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -11,7 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ClipboardList } from "lucide-react";
 import type { CardData } from "@/lib/card-types";
 import { exames } from "@/lib/card-types";
 
@@ -46,154 +44,110 @@ function SectionExamesInner({ data, onUpdate }: Props) {
   );
 
   return (
-    <Card className="border-0 shadow-lg">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2.5 text-lg text-foreground">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10">
-            <ClipboardList className="h-4.5 w-4.5 text-primary" />
-          </div>
-          Exames e ultrassonografia
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-6">
-        {/* Exames laboratoriais */}
-        <div>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Exames laboratoriais
-          </p>
-          <div className="overflow-hidden rounded-xl border">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-muted/50">
-                  <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Exame
-                  </TableHead>
-                  <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Data
-                  </TableHead>
-                  <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Resultado
-                  </TableHead>
+    <div className="flex flex-col gap-4">
+      {/* Lab exams */}
+      <div className="rounded-2xl bg-card p-4">
+        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-primary">
+          Exames laboratoriais
+        </p>
+        <div className="overflow-hidden rounded-xl">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="bg-primary text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
+                  Exame
+                </TableHead>
+                <TableHead className="bg-primary text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
+                  Data
+                </TableHead>
+                <TableHead className="bg-primary text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
+                  Resultado
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {exames.map((exame, idx) => (
+                <TableRow key={exame}>
+                  <TableCell className="bg-muted/40 text-xs font-semibold text-foreground">
+                    {exame}
+                  </TableCell>
+                  <TableCell className="p-1">
+                    <Input
+                      className="h-8 rounded-lg border-transparent bg-background text-xs transition-colors focus:border-primary/30 focus:bg-card"
+                      placeholder="dd/mm/aaaa"
+                      value={data.exams[idx].date}
+                      onChange={(e) =>
+                        handleExamChange(idx, "date", e.target.value)
+                      }
+                    />
+                  </TableCell>
+                  <TableCell className="p-1">
+                    <Input
+                      className="h-8 rounded-lg border-transparent bg-background text-xs transition-colors focus:border-primary/30 focus:bg-card"
+                      value={data.exams[idx].result}
+                      onChange={(e) =>
+                        handleExamChange(idx, "result", e.target.value)
+                      }
+                    />
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {exames.map((exame, idx) => (
-                  <TableRow key={exame} className="hover:bg-muted/30">
-                    <TableCell className="text-sm font-medium">
-                      {exame}
-                    </TableCell>
-                    <TableCell className="p-1.5">
-                      <Input
-                        className="h-9 rounded-lg border-transparent bg-muted/40 text-sm transition-colors focus:border-primary/30 focus:bg-card"
-                        placeholder="dd/mm/aaaa"
-                        value={data.exams[idx].date}
-                        onChange={(e) =>
-                          handleExamChange(idx, "date", e.target.value)
-                        }
-                      />
-                    </TableCell>
-                    <TableCell className="p-1.5">
-                      <Input
-                        className="h-9 rounded-lg border-transparent bg-muted/40 text-sm transition-colors focus:border-primary/30 focus:bg-card"
-                        value={data.exams[idx].result}
-                        onChange={(e) =>
-                          handleExamChange(idx, "result", e.target.value)
-                        }
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+              ))}
+            </TableBody>
+          </Table>
         </div>
+      </div>
 
-        {/* Ultrassonografias */}
-        <div>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Ultrassonografias
-          </p>
-          <div className="overflow-x-auto rounded-xl border">
-            <Table className="min-w-[640px]">
-              <TableHeader>
-                <TableRow className="bg-muted/50">
-                  <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Data
-                  </TableHead>
-                  <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    IG USG
-                  </TableHead>
-                  <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Peso fetal
-                  </TableHead>
-                  <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Placenta
-                  </TableHead>
-                  <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Liquido
-                  </TableHead>
+      {/* Ultrasounds */}
+      <div className="rounded-2xl bg-card p-4">
+        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-primary">
+          Ultrassonografias
+        </p>
+        <div className="overflow-x-auto rounded-xl">
+          <Table className="min-w-[560px]">
+            <TableHeader>
+              <TableRow>
+                {["Data", "IG USG", "Peso fetal", "Placenta", "Liquido"].map(
+                  (h) => (
+                    <TableHead
+                      key={h}
+                      className="bg-primary text-[10px] font-bold uppercase tracking-wider text-primary-foreground"
+                    >
+                      {h}
+                    </TableHead>
+                  )
+                )}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data.ultrasounds.map((usg, row) => (
+                <TableRow key={`usg-${row + 1}`}>
+                  {(
+                    [
+                      ["date", "dd/mm/aaaa"],
+                      ["igUsg", ""],
+                      ["pesoFetal", ""],
+                      ["placenta", ""],
+                      ["liquido", ""],
+                    ] as const
+                  ).map(([field, ph]) => (
+                    <TableCell key={field} className="p-1">
+                      <Input
+                        className="h-8 rounded-lg border-transparent bg-background text-xs transition-colors focus:border-primary/30 focus:bg-card"
+                        placeholder={ph}
+                        value={usg[field]}
+                        onChange={(e) =>
+                          handleUsgChange(row, field, e.target.value)
+                        }
+                      />
+                    </TableCell>
+                  ))}
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data.ultrasounds.map((usg, row) => (
-                  <TableRow
-                    key={`usg-${row + 1}`}
-                    className="hover:bg-muted/30"
-                  >
-                    <TableCell className="p-1.5">
-                      <Input
-                        className="h-9 rounded-lg border-transparent bg-muted/40 text-sm transition-colors focus:border-primary/30 focus:bg-card"
-                        placeholder="dd/mm/aaaa"
-                        value={usg.date}
-                        onChange={(e) =>
-                          handleUsgChange(row, "date", e.target.value)
-                        }
-                      />
-                    </TableCell>
-                    <TableCell className="p-1.5">
-                      <Input
-                        className="h-9 rounded-lg border-transparent bg-muted/40 text-sm transition-colors focus:border-primary/30 focus:bg-card"
-                        value={usg.igUsg}
-                        onChange={(e) =>
-                          handleUsgChange(row, "igUsg", e.target.value)
-                        }
-                      />
-                    </TableCell>
-                    <TableCell className="p-1.5">
-                      <Input
-                        className="h-9 rounded-lg border-transparent bg-muted/40 text-sm transition-colors focus:border-primary/30 focus:bg-card"
-                        value={usg.pesoFetal}
-                        onChange={(e) =>
-                          handleUsgChange(row, "pesoFetal", e.target.value)
-                        }
-                      />
-                    </TableCell>
-                    <TableCell className="p-1.5">
-                      <Input
-                        className="h-9 rounded-lg border-transparent bg-muted/40 text-sm transition-colors focus:border-primary/30 focus:bg-card"
-                        value={usg.placenta}
-                        onChange={(e) =>
-                          handleUsgChange(row, "placenta", e.target.value)
-                        }
-                      />
-                    </TableCell>
-                    <TableCell className="p-1.5">
-                      <Input
-                        className="h-9 rounded-lg border-transparent bg-muted/40 text-sm transition-colors focus:border-primary/30 focus:bg-card"
-                        value={usg.liquido}
-                        onChange={(e) =>
-                          handleUsgChange(row, "liquido", e.target.value)
-                        }
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+              ))}
+            </TableBody>
+          </Table>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 

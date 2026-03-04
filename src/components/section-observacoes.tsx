@@ -1,9 +1,7 @@
 "use client";
 
 import { memo, useCallback } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { FileText } from "lucide-react";
 import type { CardData } from "@/lib/card-types";
 
 interface Props {
@@ -26,47 +24,42 @@ function SectionObservacoesInner({ data, loaded, onUpdate }: Props) {
   );
 
   return (
-    <Card className="border-0 shadow-lg">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2.5 text-lg text-foreground">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10">
-            <FileText className="h-4.5 w-4.5 text-primary" />
-          </div>
+    <div className="flex flex-col gap-4">
+      <div className="rounded-2xl bg-card p-5">
+        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-primary">
           Observacoes e orientacoes
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-6 lg:flex-row">
-        <div className="flex flex-1 flex-col gap-3">
+        </p>
+        <div className="flex flex-col gap-3">
           {data.observations.map((value, idx) => (
-            <Textarea
-              key={`obs-${idx + 1}`}
-              className="min-h-12 resize-none rounded-xl border-transparent bg-muted/40 text-sm transition-colors focus:border-primary/30 focus:bg-card"
-              placeholder={`Observacao ${idx + 1}`}
-              value={value}
-              onChange={(e) => handleChange(idx, e.target.value)}
-            />
+            <div key={`obs-${idx + 1}`} className="flex items-start gap-3">
+              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-accent text-[10px] font-bold text-accent-foreground">
+                {idx + 1}
+              </div>
+              <Textarea
+                className="min-h-[42px] flex-1 resize-none rounded-xl border-transparent bg-muted/60 text-sm transition-colors placeholder:text-muted-foreground/50 focus:border-primary/30 focus:bg-card focus:ring-2 focus:ring-primary/15"
+                placeholder={`Observacao ${idx + 1}`}
+                value={value}
+                onChange={(e) => handleChange(idx, e.target.value)}
+              />
+            </div>
           ))}
         </div>
+      </div>
 
-        <div className="flex flex-col gap-4 rounded-2xl bg-primary p-6 text-primary-foreground lg:w-80">
-          <p className="text-lg font-semibold">Cuidados essenciais</p>
-          <p className="text-sm leading-relaxed text-primary-foreground/80">
-            A maternidade e um amor que brota no ventre para desabrochar no
-            mundo. Um pre-natal regular contribui para uma gestacao segura.
-          </p>
-          <ul className="flex flex-col gap-2 text-sm text-primary-foreground/85">
-            <li>Alimente-se bem e mantenha hidratacao.</li>
-            <li>Realize atividade fisica com orientacao.</li>
-            <li>Nao falte as consultas e exames periodicos.</li>
-            <li>Converse com a equipe sobre seu plano de parto.</li>
-          </ul>
-          <p className="pt-2 font-serif text-2xl">Seja bem-vinda!</p>
-          <p className="text-xs text-primary-foreground/60">
-            Dados salvos localmente ({loaded ? "carregado" : "iniciando"})
-          </p>
-        </div>
-      </CardContent>
-    </Card>
+      {/* Motivational card */}
+      <div className="rounded-2xl bg-primary p-5 text-primary-foreground">
+        <p className="text-base font-bold">Maternidade e amor</p>
+        <p className="mt-1.5 text-sm leading-relaxed text-primary-foreground/75">
+          A maternidade e um amor que brota no ventre para desabrochar no
+          mundo. Um pre-natal regular contribui para uma gestacao segura e
+          tranquila.
+        </p>
+        <p className="mt-3 font-serif text-xl">Seja bem-vinda!</p>
+        <p className="mt-1 text-[10px] text-primary-foreground/50">
+          Dados salvos localmente ({loaded ? "carregado" : "iniciando"})
+        </p>
+      </div>
+    </div>
   );
 }
 

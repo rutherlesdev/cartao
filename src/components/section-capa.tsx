@@ -1,43 +1,81 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Baby, Stethoscope } from "lucide-react";
+import { Baby, Heart, Shield, Stethoscope } from "lucide-react";
 
 export function SectionCapa() {
   return (
-    <Card className="overflow-hidden border-0 shadow-lg">
-      <CardContent className="p-0">
-        <div className="flex flex-col lg:flex-row">
-          <section className="relative flex flex-col justify-center bg-primary px-6 py-10 text-primary-foreground md:px-10 lg:w-1/2 lg:py-14">
-            <Badge className="mb-4 w-fit border-primary-foreground/20 bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/15">
-              <Stethoscope className="mr-1.5 h-3.5 w-3.5" />
-              Clinica Obstetrica
-            </Badge>
-            <h1 className="font-serif text-4xl leading-tight tracking-tight md:text-5xl">
-              Cartao da Gestante
-            </h1>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-primary-foreground/80 md:text-base">
-              Acompanhamento humanizado com historico clinico, exames e evolucao pre-natal.
-            </p>
-          </section>
-
-          <section className="flex flex-col justify-center bg-card px-6 py-10 md:px-10 lg:w-1/2 lg:py-14">
-            <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent">
-              <Baby className="h-7 w-7 text-accent-foreground" />
-            </div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Pre-natal seguro
-            </p>
-            <p className="mt-2 text-2xl font-semibold text-foreground md:text-3xl">
-              Dr. Stenio Galvao de Freitas
-            </p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Ginecologia, Obstetricia e Medicina Fetal
-            </p>
-          </section>
+    <div className="flex flex-col gap-4">
+      {/* Hero banner */}
+      <div className="overflow-hidden rounded-2xl bg-primary">
+        <div className="px-5 pb-6 pt-6">
+          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-foreground/15">
+            <Baby className="h-5 w-5 text-primary-foreground" />
+          </div>
+          <h2 className="font-serif text-2xl font-bold text-primary-foreground">
+            Bem-vinda ao seu
+          </h2>
+          <h2 className="font-serif text-2xl font-bold text-primary-foreground">
+            acompanhamento pre-natal
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-primary-foreground/75">
+            Aqui voce encontra seu historico completo de consultas, exames e
+            orientacoes medicas.
+          </p>
         </div>
-      </CardContent>
-    </Card>
+        <div className="flex items-center gap-3 border-t border-primary-foreground/10 bg-primary-foreground/5 px-5 py-3">
+          <Stethoscope className="h-4 w-4 text-primary-foreground/70" />
+          <p className="text-xs font-medium text-primary-foreground/80">
+            Dr. Stenio Galvao de Freitas
+          </p>
+        </div>
+      </div>
+
+      {/* Feature cards */}
+      <div className="grid grid-cols-2 gap-3">
+        {[
+          {
+            icon: Heart,
+            title: "Cuidado integrado",
+            desc: "Todos os dados da gestacao em um so lugar",
+          },
+          {
+            icon: Shield,
+            title: "Seguro e privado",
+            desc: "Seus dados ficam protegidos no seu dispositivo",
+          },
+        ].map(({ icon: Icon, title, desc }) => (
+          <div
+            key={title}
+            className="flex flex-col gap-2 rounded-2xl bg-card p-4"
+          >
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent">
+              <Icon className="h-4 w-4 text-accent-foreground" />
+            </div>
+            <p className="text-sm font-bold text-foreground">{title}</p>
+            <p className="text-xs leading-relaxed text-muted-foreground">{desc}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Tips */}
+      <div className="rounded-2xl bg-card p-5">
+        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-primary">
+          Cuidados essenciais
+        </p>
+        <ul className="flex flex-col gap-2.5">
+          {[
+            "Alimente-se bem e mantenha hidratacao adequada.",
+            "Realize atividade fisica com orientacao medica.",
+            "Nao falte as consultas e exames periodicos.",
+            "Converse com a equipe sobre seu plano de parto.",
+          ].map((tip) => (
+            <li key={tip} className="flex items-start gap-2.5 text-sm text-foreground">
+              <div className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+              {tip}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }
