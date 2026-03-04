@@ -65,17 +65,44 @@ export function buildPdfHtml(data: CardData): string {
     print-color-adjust: exact;
   }
   .header {
-    background: #0d5c75;
+    background: linear-gradient(135deg, #0d5c75 0%, #0a4f63 100%);
     color: #fff;
-    padding: 14px 18px;
-    border-radius: 6px;
-    margin-bottom: 14px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 8px rgba(13, 92, 117, 0.2);
   }
-  .header h1 { font-size: 18px; font-weight: 700; }
-  .header p { font-size: 10px; opacity: 0.85; }
+  .header h1 { 
+    font-size: 20px; 
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .header p { 
+    font-size: 11px; 
+    opacity: 0.9;
+    margin-top: 3px;
+  }
+  .header-info {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .header-info p {
+    margin: 0;
+  }
+  .doctor-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-top: 4px;
+  }
   .patient-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -155,11 +182,13 @@ export function buildPdfHtml(data: CardData): string {
 <body>
 <div class="header">
   <div>
-    <h1>Cartao da Gestante</h1>
-    <p>Dr. Stenio Galvao de Freitas - Ginecologia, Obstetricia e Medicina Fetal</p>
+    <h1>Cartão da Gestante</h1>
+    <p>Acompanhamento pré-natal especializado</p>
+    <div class="doctor-badge">Dr. Stenio Galvão de Freitas</div>
   </div>
-  <div style="text-align:right">
-    <p>Emitido em ${new Date().toLocaleDateString("pt-BR")}</p>
+  <div class="header-info">
+    <p><strong>Emitido em:</strong></p>
+    <p>${new Date().toLocaleDateString("pt-BR")}</p>
   </div>
 </div>
 
