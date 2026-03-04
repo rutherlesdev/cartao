@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cartão da Gestante (Backend Mobile-First)
 
-## Getting Started
+API REST versionada para gestão do Cartão da Gestante com Next.js App Router + Supabase Postgres + RLS.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router)
+- TypeScript
+- Supabase (Auth, Postgres, Storage)
+- Zod (validação)
+- Playwright (geração de PDF)
+- Vitest (testes unitários)
+
+## Requisitos
+
+- Node.js 20+
+- Projeto Supabase configurado
+- Supabase CLI (para migrations/seed)
+
+## Variáveis de ambiente
+
+Copie `.env.example` para `.env.local` e preencha:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+APP_BASE_URL=http://localhost:3000
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Banco de dados (Supabase)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Aplicar migrations
 
-## Learn More
+```bash
+supabase db push
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Executar seed
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+supabase db seed
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Arquivos relevantes:
 
-## Deploy on Vercel
+- `supabase/migrations/202603010001_init.sql`
+- `supabase/seed.sql`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Rodando localmente
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm install
+npm run dev
+```
+
+## Scripts
+
+- `npm run dev` - ambiente local
+- `npm run lint` - lint
+- `npm run typecheck` - checagem TypeScript
+- `npm run test` - testes unitários
+- `npm run build` - build de produção
+
+## Endpoints
+
+Veja `docs/API.md` para lista completa de rotas e payloads.
+
+Base path: `/api/v1`
+
+## Segurança
+
+- Auth obrigatória em todas as rotas
+- Controle de acesso por papel (`admin`, `doctor`, `secretary`, `patient`)
+- RLS habilitado nas tabelas clínicas
+- Upload privado em bucket `clinical-attachments` com signed URL
+- Auditoria de alterações críticas em `audit_logs`
+
+## PDF do Cartão
+
+- Endpoint: `GET /api/v1/pregnancies/:id/card.pdf`
+- Renderização HTML/CSS e exportação em A4 via Playwright
+
+## Observações
+
+- Paciente pode possuir múltiplas gestações.
+- Consultas são ilimitadas; o PDF projeta as 12 primeiras no formato do cartão.
+- V1 não possui modo offline.
