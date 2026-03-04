@@ -69,18 +69,38 @@ function SectionObservacoesInner({ data, loaded, onUpdate }: Props) {
         </div>
 
         {/* Motivational card */}
-        <div className="relative overflow-hidden rounded-2xl bg-primary p-5 text-primary-foreground lg:p-6">
-          <div className="pointer-events-none absolute -right-14 top-14 h-40 w-40 rounded-full bg-primary-foreground/8" />
-          <p className="text-base font-bold lg:text-lg">Maternidade e amor</p>
-          <p className="mt-1.5 text-sm leading-relaxed text-primary-foreground/80 lg:text-base">
-            A maternidade e um amor que brota no ventre para desabrochar no
-            mundo. Um pre-natal regular contribui para uma gestacao segura e
-            tranquila.
-          </p>
-          <p className="mt-3 font-serif text-2xl italic lg:text-3xl">Seja bem-vinda!</p>
-          <p className="mt-1 text-xs text-primary-foreground/70">
-            Dados salvos localmente ({loaded ? "carregado" : "iniciando"})
-          </p>
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-primary/90 p-6 text-primary-foreground lg:p-8 shadow-lg">
+          {/* Decorative elements */}
+          <div className="pointer-events-none absolute -right-20 top-0 h-48 w-48 rounded-full bg-primary-foreground/8 blur-3xl" />
+          <div className="pointer-events-none absolute -left-16 bottom-0 h-40 w-40 rounded-full bg-primary-foreground/6 blur-2xl" />
+          
+          <div className="relative z-10 space-y-4 lg:space-y-5">
+            {/* Heart icon */}
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-foreground/15 backdrop-blur-sm lg:h-14 lg:w-14">
+              <svg className="h-6 w-6 text-primary-foreground lg:h-7 lg:w-7" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+              </svg>
+            </div>
+            
+            {/* Title */}
+            <div>
+              <p className="text-lg font-bold tracking-tight lg:text-xl">Maternidade e amor</p>
+              <p className="h-1 w-12 mt-2 rounded-full bg-primary-foreground/30" />
+            </div>
+            
+            {/* Main text */}
+            <p className="max-w-md text-sm leading-relaxed text-primary-foreground/90 lg:text-base lg:leading-relaxed">
+              A maternidade é um amor que brota no ventre para desabrochar no mundo. Um pré-natal regular contribui para uma gestação segura e tranquila.
+            </p>
+            
+            {/* Motivational message */}
+            <div className="space-y-1">
+              <p className="font-serif text-2xl italic font-semibold lg:text-3xl">Seja bem-vinda!</p>
+              <p className="text-xs text-primary-foreground/70">
+                ✓ Dados salvos localmente ({loaded ? "carregado" : "iniciando"})
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
